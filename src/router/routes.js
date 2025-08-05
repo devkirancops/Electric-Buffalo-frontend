@@ -8,6 +8,16 @@ const routes = [
         component: () => import('pages/IndexPage.vue'),
         meta: { requiresAuth: true },
       },
+      {
+        path: 'task',
+        component: () => import('pages/TaskPage.vue'),
+        meta: { requiresAuth: true },
+      },
+      {
+        path: 'profile',
+        component: () => import('pages/UserProfilePage.vue'),
+        meta: { requiresAuth: true },
+      },
     ],
   },
 

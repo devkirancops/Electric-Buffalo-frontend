@@ -16,6 +16,7 @@ const getInitialState = () => ({
   user: localStorageService.getItem(STORAGE_KEYS.USER) || null,
   accessToken: localStorageService.getItem(STORAGE_KEYS.ACCESS_TOKEN) || null,
   accessTokenExpiry: localStorageService.getItem(STORAGE_KEYS.ACCESS_TOKEN_EXPIRY) || null,
+  loading: false,
 })
 
 export const useAuthStore = defineStore('auth', {
@@ -256,6 +257,25 @@ export const useAuthStore = defineStore('auth', {
       this.accessToken = accessToken
       this.accessTokenExpiry = accessTokenExpiry
     },
+
+    async updateUserProfile(payload) {
+      this.loading = true
+
+      try {
+        const response = await axios.put('/person/me', payload)
+        if (response.data?.success) {
+          Notify.create({ message: 'User profile updated successfully', color: 'positive', position: 'top', timeout: 3000 })
+          this.updateUser(response.data?.person)
+          return true
+        }
+        this.showErrorNotification(response.data?.message)
+        return false
+      } catch (error) {
+        return this.handleApiError(error, 'Failed to update user profile')
+      } finally {
+        this.loading = false
+      }
+    }
   },
 })
 

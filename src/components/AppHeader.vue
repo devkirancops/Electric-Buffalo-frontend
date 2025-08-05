@@ -22,6 +22,9 @@
         <q-menu fir anchor="bottom right" self="top right">
           <q-list style="min-width: 100px">
             <q-item clickable v-close-popup>
+              <q-item-section @click="goToProfile">Profile</q-item-section>
+            </q-item>
+            <q-item clickable v-close-popup>
               <q-item-section @click="authStore.logout()">Logout</q-item-section>
             </q-item>
           </q-list>
@@ -50,6 +53,11 @@ const linksList = [
     icon: 'code',
     link: '/dashboard',
   },
+  {
+    title: 'Task',
+    icon: 'code',
+    link: '/task',
+  },
 ]
 
 const authStore = useAuthStore()
@@ -59,5 +67,8 @@ const leftDrawerOpen = ref(false)
 
 function toggleLeftDrawer() {
   leftDrawerOpen.value = !leftDrawerOpen.value
+}
+function goToProfile() {
+  authStore?.router?.push('/profile')
 }
 </script>
